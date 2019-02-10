@@ -7,10 +7,12 @@ import re
 import subprocess
 import shutil
 import importlib
+import shlex
 
 from pysh_lib import shell_locals
 
-shell_locals['__sp'] = subprocess
+shell_locals['__co'] = subprocess.check_output
+shell_locals['__sp'] = shlex.split
 
 def is_valid_expr(string):
     try:
@@ -22,7 +24,7 @@ def is_valid_expr(string):
 # This replicates bash's `backquote` behavior, evaluating to the stdout of the enclosed command, with automatic string interpolation
 def parse_backquotes(string):
     return re.sub(r"(?<!\\)`(([^`]|(?<=\\)`)*)(?<!\\)`",
-                  r'__sp.check_output(r"""\1""".format(**locals()).split()).decode()', string)\
+                  r'__sp.check_output(__sp(r"""\1""".format(**locals()))).decode()', string)\
              .replace(r"\`", '`')
 
 print("pysh pre-alpha")
@@ -50,7 +52,7 @@ while True:
     elif cmd.strip() == "clear":
         print('\n' * (shutil.get_terminal_size()[1] + 5))
     elif cmd.strip().startswith('\\'):
-        subprocess.run(cmd.strip()[1:].split())
+        subprocess.run(shlex.split(cmd.strip()[1:]))
     else:
         multiline = False
         filtered_cmd = parse_backquotes(cmd)
