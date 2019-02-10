@@ -59,7 +59,7 @@ while True:
     elif cmd.strip() == "clear":
         print('\n' * (shutil.get_terminal_size()[1] + 5))
     elif cmd.strip().startswith('\\'):
-        subprocess.run(shlex.split(eval(fr'fr"""{cmd.strip()[1:]}"""', shell_locals, shell_locals)))
+        subprocess.run(shlex.split(eval(r'fr"""{}"""'.format(cmd.strip()[1:]), shell_locals, shell_locals)))
     else:
         multiline = False
         filtered_cmd = parse_backquotes(cmd)
