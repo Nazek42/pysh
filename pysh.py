@@ -27,6 +27,13 @@ def parse_backquotes(string):
                   r'__sp.check_output(__sp(r"""\1""".format(**locals()))).decode()', string)\
              .replace(r"\`", '`')
 
+homedir = os.path.expanduser('~')
+def get_dir():
+    cwd = os.getcwd()
+    if cwd == homedir:
+        cwd = '~'
+    return cwd
+
 print("pysh pre-alpha")
 
 try:
@@ -39,7 +46,7 @@ multiline = False
 
 while True:
     try:
-        cmd = prompt("{} >>> ".format(os.getcwd()),
+        cmd = prompt("{} >>> ".format(get_dir()),
                      history=FileHistory("pysh_history.txt"),
                      auto_suggest=AutoSuggestFromHistory(),
                      multiline=multiline)
