@@ -1,6 +1,9 @@
 # pysh
 A Python system shell with pipes and special syntax
 
+Dependencies:
+ - prompt_toolkit
+
 ## Special Syntax
 
 #### Backticks
