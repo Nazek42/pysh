@@ -2,6 +2,7 @@
 A Python system shell with pipes and special syntax
 
 Dependencies:
+ - Python >= 3.6
  - prompt_toolkit
 
 ## Special Syntax
