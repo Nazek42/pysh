@@ -25,7 +25,6 @@ E.g.:
 will run the expected move operation.
 This works as it should for processes which take control of the terminal, for example text editors or games.
 It is fully equivalent to running said command in any traditional shell, since it is a direct system call.
-Double quotes do not currently work properly inside a backslashed command. Use single quotes.
 
 ## Chain Objects
 

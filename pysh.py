@@ -24,7 +24,7 @@ def is_valid_expr(string):
 # This replicates bash's `backquote` behavior, evaluating to the stdout of the enclosed command, with automatic string interpolation
 def parse_backquotes(string):
     return re.sub(r"(?<!\\)`(([^`]|(?<=\\)`)*)(?<!\\)`",
-                  r'__co(__sp(fr"""\1""")).decode()', string)\
+                  r'__co(__sp(fr""" \1 """)).decode()', string)\
              .replace(r"\`", '`')
 
 homedir = os.path.expanduser('~')
@@ -59,7 +59,7 @@ while True:
     elif cmd.strip() == "clear":
         print('\n' * (shutil.get_terminal_size()[1] + 5))
     elif cmd.strip().startswith('\\'):
-        subprocess.run(shlex.split(eval(r'fr"""{}"""'.format(cmd.strip()[1:]), shell_locals, shell_locals)))
+        subprocess.run(shlex.split(eval(r'fr""" {} """'.format(cmd.strip()[1:]), shell_locals, shell_locals)))
     else:
         multiline = False
         filtered_cmd = parse_backquotes(cmd)
