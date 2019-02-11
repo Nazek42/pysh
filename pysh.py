@@ -5,6 +5,7 @@ from prompt_toolkit.history import FileHistory
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.filters import Condition
+from prompt_toolkit.completion import WordCompleter, ThreadedCompleter
 
 import os
 import re
@@ -45,6 +46,11 @@ def parse_backquotes(string):
     return re.sub(r"(?<!\\)`(([^`]|(?<=\\)`)*)(?<!\\)`",
                   r'__co( __sp( {} ) ).decode()'.format(format_string.format(r'\1')), string)\
              .replace(r"\`", '`')
+
+def get_autocomplete_suggestions():
+    sugg = os.listdir()
+    sugg.extend(shell_locals.keys())
+    return sugg
 
 home = Path.home().resolve()
 def get_dir_str():
@@ -90,7 +96,8 @@ while True:
                      auto_suggest=AutoSuggestFromHistory(),
                      multiline=multiline,
                      key_bindings=keys,
-                     prompt_continuation=shell_locals['ps2'])
+                     prompt_continuation=shell_locals['ps2'],
+                     completer=ThreadedCompleter(WordCompleter(get_autocomplete_suggestions())))
     except EOFError:
         break
     multiline = False
