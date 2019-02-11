@@ -3,6 +3,7 @@ from collections.abc import Callable
 
 import re
 import os
+from pathlib import Path
 import sys
 
 class Chain:
@@ -88,8 +89,11 @@ def readlines(file, mode='t'):
         return fp.readlines()
 
 def cd(newdir='~'):
-    newdir_abs = os.path.abspath(os.path.expanduser(newdir))
-    sys.path.remove(os.getcwd())
+    newdir_abs = str(Path(newdir).expanduser().resolve())
+    try:
+        sys.path.remove(str(Path.cwd()))
+    except ValueError:
+        pass
     os.chdir(newdir_abs)
     sys.path.append(newdir_abs)
     

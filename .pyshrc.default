@@ -1,0 +1,15 @@
+# Place startup commands here.
+# You can use backticks, but not backslashes.
+
+from prompt_toolkit import HTML
+
+def ps1(**dyn):
+    usercolor = 'ansired' if dyn['user'] == 'root' else 'ansiblue'
+    return HTML(r"<{usercolor}>{user}</{usercolor}>@<ansired>{host}</ansired>:<ansimagenta>{cwd}</ansimagenta> &gt;&gt;&gt; "
+                .format(usercolor=usercolor, **dyn))
+
+def ps2(width, line_number, is_soft_wrap):
+    if is_soft_wrap:
+        return ' ' * width
+    else:
+        return '.' * (width-1) + ' '

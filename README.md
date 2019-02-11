@@ -26,6 +26,12 @@ will run the expected move operation.
 This works as it should for processes which take control of the terminal, for example text editors or games.
 It is fully equivalent to running said command in any traditional shell, since it is a direct system call.
 
+#### Interpolation
+
+You can use `format()`-style string interpolation with backticks and backslashes.
+If you're running Python 3.6 or newer,
+  you can use full f-string syntax with arbitrary expressions inside your `{}`.
+
 ## Chain Objects
 
 Chainable functions are functions which return a *chain object* when called.
