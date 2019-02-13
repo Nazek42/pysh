@@ -58,7 +58,7 @@ def pyshimport(path):
 # This replicates bash's `backquote` behavior, evaluating to the stdout of the enclosed command, with automatic string interpolation
 def parse_backquotes(string):
     return re.sub(r"(?<!\\)`(([^`]|(?<=\\)`)*)(?<!\\)`",
-                  r'__co( __sp( {} ) ).decode()'.format(format_string.format(r'\1')), string)\
+                  r'__cmd( __sp( {} ) )'.format(format_string.format(r'\1')), string)\
              .replace(r"\`", '`')
 
 def parse_backslashes(string):
