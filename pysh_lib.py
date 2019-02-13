@@ -5,11 +5,15 @@ import re
 import os
 from pathlib import Path
 import sys
+import subprocess
+import shlex
+
+from transpile import pyshimport
 
 class Chain:
     def __init__(self, transforms):
         self.transforms = transforms
-    
+
     def __or__(self, rhs):
         if isinstance(rhs, Chain):
             return Chain(self.transforms + rhs.transforms)
@@ -17,7 +21,7 @@ class Chain:
             return Chain(self.transforms + [rhs])
         else:
             raise TypeError
-    
+
     def __ror__(self, lhs):
         if isinstance(lhs, Chain):
             return Chain(lhs.transforms + self.transforms)
@@ -57,7 +61,7 @@ def cfilter(func):
 @chainable
 def join(with_):
     return with_.join
-    
+
 joinlines = join('\n')
 
 @chainable
@@ -96,7 +100,7 @@ def cd(newdir='~'):
         pass
     os.chdir(newdir_abs)
     sys.path.append(newdir_abs)
-    
+
 
 @chainable
 def sort(key=None, reverse=False):
@@ -116,6 +120,10 @@ lib = [
     'append',
     'read',
     'readlines',
+    'pyshimport',
 ]
 
 shell_locals = {f: eval(f) for f in lib}
+shell_locals['__co'] = subprocess.check_output
+shell_locals['__r'] = subprocess.run
+shell_locals['__sp'] = shlex.split

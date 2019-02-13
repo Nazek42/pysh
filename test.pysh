@@ -1,0 +1,11 @@
+import random
+
+def thing():
+    if random.choice((True, False)):
+        print("Printing hello")
+        \echo hello
+        print("Printed hello")
+    else:
+        print("Printing goodbye")
+        \echo goodbye
+        print("Printed goodbye")
