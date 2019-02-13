@@ -15,7 +15,7 @@ format_string = r'fr""" {} """' if have_fstrings else r'r""" {} """.format(**loc
 format_string_alt = r"fr''' {} '''" if have_fstrings else r"r''' {} '''.format(**locals)"
 
 def compile_pysh(string, prelude=True):
-    pysh_lib_path = "/home/nazek42/Documents/pysh/pysh_lib.py"
+    pysh_lib_path = Path(sys.path[0]) / "pysh_lib.py"
     prelude = """\
 from importlib.util import spec_from_file_location, module_from_spec
 from pathlib import Path
