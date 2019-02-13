@@ -49,7 +49,7 @@ class Chain:
             return Chain(self.transforms, source=lhs)
         if isinstance(lhs, Callable):
             return Chain([lhs] + self.transforms, source=None)
-        return Chain(self.transforms, source=ChainSource(lambda: lhs))
+        return Chain(self.transforms, source=ChainSource(lhs))
 
 def chainable(func):
     @wraps(func)
