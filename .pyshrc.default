@@ -13,3 +13,21 @@ def ps2(width, line_number, is_soft_wrap):
         return ' ' * width
     else:
         return '.' * (width-1) + ' '
+
+from os import environ
+class _Env:
+    _environ = environ
+    def get(self, var):
+        return self._environ[var]
+
+    def set(self, var, value):
+        self._environ[var] = str(value)
+
+    def __setattr__(self, var, value):
+        self.set(var, value)
+
+    def __getattr__(self, var):
+        return self.get(var)
+
+env = _Env()
+del _Env, environ
